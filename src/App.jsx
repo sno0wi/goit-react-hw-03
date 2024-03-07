@@ -13,19 +13,22 @@ const contactsData = [
 
 function App() {
   const [contacts, setContacts] = useState(contactsData);
-  const findContact = name => {
-    setContacts(() => {
-      return contacts.filter(contact =>
-        contact.name.toLowerCase().includes(name.toLowerCase())
+  const searchContact = searchName => {
+    if (searchName.trim() === '') {
+      setContacts(contactsData);
+    } else {
+      const findContact = contacts.filter(contact =>
+        contact.name.toLowerCase().includes(searchName.toLowerCase())
       );
-    });
+      setContacts(findContact);
+    }
   };
 
   return (
     <div>
       <h1>Phonebook</h1>
       <ContactForm />
-      <SearchBox findContact={findContact} />
+      <SearchBox searchContact={searchContact} />
       <ContactList contacts={contacts} />
     </div>
   );

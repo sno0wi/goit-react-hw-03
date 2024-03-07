@@ -1,4 +1,8 @@
-const SearchBox = ({ findContact }) => {
+const SearchBox = ({ searchContact }) => {
+  const hendleChange = e => {
+    const searchName = e.target.value;
+    searchContact(searchName);
+  };
   return (
     <div>
       <label htmlFor="">
@@ -7,7 +11,7 @@ const SearchBox = ({ findContact }) => {
           type="text"
           placeholder="Enter name"
           name="searchName"
-          onChange={findContact}
+          onChange={hendleChange}
         />
       </label>
     </div>
