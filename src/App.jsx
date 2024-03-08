@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { nanoid } from 'nanoid';
 import './App.css';
 import ContactForm from './components/ContactForm/ContactForm.jsx';
 import SearchBox from './components/SearchBox/SearchBox.jsx';
@@ -24,12 +25,26 @@ function App() {
     }
   };
 
+  const onAddNewContact = contactData => {
+    const finalContacts = {
+      ...contactData,
+      id: nanoid(),
+    };
+    setContacts(prevState => [...prevState, finalContacts]);
+  };
+
+  const handleDelete = contactId => {
+    setContacts(prevState =>
+      prevState.filter(contact => contact.id !== contactId)
+    );
+  };
+
   return (
     <div>
       <h1>Phonebook</h1>
-      <ContactForm />
+      <ContactForm onAddNewContact={onAddNewContact} />
       <SearchBox searchContact={searchContact} />
-      <ContactList contacts={contacts} />
+      <ContactList contacts={contacts} handleDelete={handleDelete} />
     </div>
   );
 }
