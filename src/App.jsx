@@ -14,15 +14,12 @@ const contactsData = [
 
 function App() {
   const [contacts, setContacts] = useState(contactsData);
-  const searchContact = searchName => {
-    if (searchName.trim() === '') {
-      setContacts(contactsData);
-    } else {
-      const findContact = contacts.filter(contact =>
-        contact.name.toLowerCase().includes(searchName.toLowerCase())
-      );
-      setContacts(findContact);
-    }
+  const [filter, setFilter] = useState('');
+
+  const getVisibleContacts = () => {
+    return contacts.filter(({ name }) =>
+      name.toLocaleLowerCase().includes(filter.toLocaleLowerCase())
+    );
   };
 
   const onAddNewContact = contactData => {
@@ -39,12 +36,17 @@ function App() {
     );
   };
 
+  console.log({ contacts });
+
   return (
     <div>
       <h1>Phonebook</h1>
       <ContactForm onAddNewContact={onAddNewContact} />
-      <SearchBox searchContact={searchContact} />
-      <ContactList contacts={contacts} handleDelete={handleDelete} />
+      <SearchBox searchContact={setFilter} />
+      <ContactList
+        contacts={getVisibleContacts()}
+        handleDelete={handleDelete}
+      />
     </div>
   );
 }
