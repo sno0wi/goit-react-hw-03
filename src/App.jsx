@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { nanoid } from 'nanoid';
 import './App.css';
 import ContactForm from './components/ContactForm/ContactForm.jsx';
@@ -13,7 +13,10 @@ const contactsData = [
 ];
 
 function App() {
-  const [contacts, setContacts] = useState(contactsData);
+  const [contacts, setContacts] = useState(() => {
+    const data = localStorage.getItem('contacts');
+    return data ? JSON.parse(data) : contactsData;
+  });
   const [filter, setFilter] = useState('');
 
   const getVisibleContacts = () => {
@@ -30,13 +33,22 @@ function App() {
     setContacts(prevState => [...prevState, finalContacts]);
   };
 
+  useEffect(() => {
+    localStorage.setItem('contacts', JSON.stringify(contacts));
+  });
+
+  const delObjLocalStorage = id => {
+    const data = JSON.parse(localStorage.getItem('contacts'));
+    const updatedContacts = data.filter(contact => contact.id !== id);
+    localStorage.setItem('contacts', JSON.stringify(updatedContacts));
+  };
+
   const handleDelete = contactId => {
     setContacts(prevState =>
       prevState.filter(contact => contact.id !== contactId)
     );
+    delObjLocalStorage(contactId);
   };
-
-  console.log({ contacts });
 
   return (
     <div>
