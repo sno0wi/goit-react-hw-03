@@ -25,6 +25,8 @@ function App() {
     );
   };
 
+  const visibleContacts = getVisibleContacts();
+
   const onAddNewContact = contactData => {
     const finalContacts = {
       ...contactData,
@@ -55,10 +57,7 @@ function App() {
       <h1>Phonebook</h1>
       <ContactForm onAddNewContact={onAddNewContact} />
       <SearchBox searchContact={setFilter} />
-      <ContactList
-        contacts={getVisibleContacts()}
-        handleDelete={handleDelete}
-      />
+      <ContactList contacts={visibleContacts} handleDelete={handleDelete} />
     </div>
   );
 }
