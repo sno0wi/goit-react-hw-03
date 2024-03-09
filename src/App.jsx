@@ -51,7 +51,7 @@ function App() {
   };
 
   return (
-    <div>
+    <div className="wrapper">
       <h1>Phonebook</h1>
       <ContactForm onAddNewContact={onAddNewContact} />
       <SearchBox searchContact={setFilter} />
